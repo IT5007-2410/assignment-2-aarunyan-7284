@@ -15,8 +15,6 @@ var count = 2;
 
 
 
-
-
 class Display2 extends React.Component {
   constructor(props) {
     super(props);
@@ -30,12 +28,25 @@ class Display2 extends React.Component {
         <thead>
           <tr>
       {/*Q3. Below table is just an example. Add more columns based on the traveller attributes you choose.*/}
-            
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Booking Time</th>
+            <th>Seat Number</th>
+            <th>Booking ID</th>
           </tr>
         </thead>
         <tbody>
       {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
-          
+          {this.props.traveller2.map(t=>(
+          <tr key={t.id}>
+            <td>{t.id}</td>
+            <td>{t.name}</td>
+            <td>{t.phone}</td>
+            <td>{t.bookingTime}</td>
+            <td>{t.seatNo}</td>
+            <td>{t.bookingID}</td>
+          </tr>))}
         </tbody>
       </table>
     );
@@ -153,10 +164,7 @@ class TicketToRide extends React.Component {
     console.log("2",this.state.addFlag,this.state.deleteFlag);
   }
 
-  setSelector(value)
-  {
-  	/*Q2. Function to set the value of component selector variable based on user's button click.*/
-  }
+
   componentDidMount() {
     this.loadData();
 
@@ -182,7 +190,7 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger,phoneNumber) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
- 
+
   }
 
   deleteTraveller(passengerBookingID) {
@@ -206,8 +214,8 @@ class TicketToRide extends React.Component {
           {/*Q2 and Q6. Code to call Instance that draws Homepage. Homepage shows Visual Representation of free seats.*/}
           <Homepage availableSeatNumber={this.state.availableSeatNumber} showAdd={this.showAddComponent} showDelete={this.showDeleteComponent} selector={this.state.selector}/>
           {/*Q3. Code to call component that Displays Travellers.*/}
-
-
+          {console.log(currentDate)}
+          <Display2 traveller2={this.state.travellers}/>
           {/*Q4. Code to call the component that adds a traveller.*/}
           {this.state.addFlag == 1? <Add addfunction={this.bookTraveller} /> : ""}
           {/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
