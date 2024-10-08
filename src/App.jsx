@@ -13,47 +13,9 @@ const initialTravellers = [
 var count = 2;
 
 
-function TravellerRow(props) {
-  {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
-  return (
-    <tr>
-	  {/*Q3. Placeholder for rendering one row of a table with required traveller attribute values.*/}
 
-    </tr>
-  );
-}
 
-function Display(traveller1) {
-  
-	/*Q3. Write code to render rows of table, reach corresponding to one traveller. Make use of the TravellerRow function that draws one row.*/
-  console.log("Aek",typeof(traveller1.traveller1.phone),traveller1.traveller1.phone,traveller1);
-  return (
-    <table className="bordered-table">
-      <thead>
-        <tr>
-	  {/*Q3. Below table is just an example. Add more columns based on the traveller attributes you choose.*/}
-          <th>ID</th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Booking Time</th>
-          <th>Seat Number</th>
-        </tr>
-      </thead>
-      <tbody>
-    {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
-        <tr>
-      
-          <td>{traveller1.traveller1.id}</td>
-          <td>{traveller1.traveller1.name}</td>
-          <td>{traveller1.traveller1.phone}</td>
-          <td>"111111"</td>
-          <td>{traveller1.traveller1.id}</td>
-          
-        </tr>
-      </tbody>
-    </table>
-  );
-}
+
 
 class Display2 extends React.Component {
   constructor(props) {
@@ -68,12 +30,12 @@ class Display2 extends React.Component {
         <thead>
           <tr>
       {/*Q3. Below table is just an example. Add more columns based on the traveller attributes you choose.*/}
-
+            
           </tr>
         </thead>
         <tbody>
       {/*Q3. write code to call the JS variable defined at the top of this function to render table rows.*/}
-
+          
         </tbody>
       </table>
     );
@@ -97,7 +59,11 @@ class Add extends React.Component {
     return (
       <form name="addTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
-
+        <label htmlFor="travellername">Name:</label>
+        <input id="travellername" type="text" name="travellername" placeholder="Name" />
+        <label htmlFor="travelerphone">Phone: </label>
+        <input id="travelerphone" type="text" name="travelerphone" placeholder="Phone" />
+        <button>Add</button>
       </form>
     );
   }
@@ -119,7 +85,9 @@ class Delete extends React.Component {
     return (
       <form name="deleteTraveller" onSubmit={this.handleSubmit}>
 	    {/*Q5. Placeholder form to enter information on which passenger's ticket needs to be deleted. Below code is just an example.*/}
-
+        <label htmlFor="Booking ID">Booking ID:</label>
+	      <input id="bookingID" type="text" name="bookingID" placeholder="Booking ID" />
+        <button>Delete</button>
       </form>
     );
   }
@@ -128,20 +96,38 @@ class Delete extends React.Component {
 class Homepage extends React.Component {
 	constructor(props) {
 	super(props);
+  this.seatNumber = [1,2,3,4,5,6,7,8,9,10];
   this.handleSubmitAdd = this.handleSubmitAdd.bind(this);
   this.handleSubmitDel = this.handleSubmitDel.bind(this);
 	}
 
 
- 
+  handleSubmitAdd(e) {
+    e.preventDefault();
+    console.log("A")
+    this.props.showAdd();
+  }
 
- 
+  handleSubmitDel(e) {
+    e.preventDefault();
+    this.props.showDelete();
+  }
   
 	render(){
 	return (
 	<div>
 		{/*Q2. Placeholder for Homepage code that shows free seats visually.*/}
+    <nav>
+      <button onClick={this.handleSubmitAdd}>Reserve seat</button>
+      <button onClick={this.handleSubmitDel}>Cancel booking</button>
+    </nav>
 
+    <p style={{margin:0, color:'red', marginTop: 10, padding:0}}>Seat Occupancy [Green:Available Grey:Occupied]</p>
+    <p style={{margin:0, color:'red', padding:0}}>Total available seat: {10-this.props.selector}</p>
+    {this.seatNumber.map(element => (
+      this.props.availableSeatNumber.includes(element)? 
+      <h1 style={{marginTop:0, marginLeft:7 ,backgroundColor: 'green',display: 'inline-block'}}>{element}  </h1> : 
+      <h1 style={{marginTop:0, marginLeft:7 , backgroundColor: 'grey',display: 'inline-block'}}>{element}  </h1>))}
 	</div>);
 	}
 }
@@ -151,10 +137,21 @@ class TicketToRide extends React.Component {
     this.state = { travellers: initialTravellers, selector: 0,availableSeatNumber : [1,2,3,4,5,6,7,8,9,10],addFlag : 0, deleteFlag : 0};
     this.bookTraveller = this.bookTraveller.bind(this);
     this.deleteTraveller = this.deleteTraveller.bind(this);
+    this.showAddComponent = this.showAddComponent.bind(this);
+    this.showDeleteComponent = this.showDeleteComponent.bind(this);
+  }
+
+  showAddComponent() {
+    
+    this.setState(state=>({addFlag:1 , deleteFlag:0}));
+    console.log("1",this.state.addFlag,this.state.deleteFlag);
 
   }
 
-
+  showDeleteComponent() {
+    this.setState(state=>({addFlag:0 , deleteFlag:1}));
+    console.log("2",this.state.addFlag,this.state.deleteFlag);
+  }
 
   setSelector(value)
   {
@@ -185,12 +182,12 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger,phoneNumber) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
-
+ 
   }
 
   deleteTraveller(passengerBookingID) {
 	  /*Q5. Write code to delete a passenger from the traveller state variable.*/
- 
+
 
   }
   
@@ -207,13 +204,14 @@ class TicketToRide extends React.Component {
         <div>
           {/*Only one of the below four divisions is rendered based on the button clicked by the user.*/}
           {/*Q2 and Q6. Code to call Instance that draws Homepage. Homepage shows Visual Representation of free seats.*/}
-          
+          <Homepage availableSeatNumber={this.state.availableSeatNumber} showAdd={this.showAddComponent} showDelete={this.showDeleteComponent} selector={this.state.selector}/>
           {/*Q3. Code to call component that Displays Travellers.*/}
-          
+
+
           {/*Q4. Code to call the component that adds a traveller.*/}
-          
+          {this.state.addFlag == 1? <Add addfunction={this.bookTraveller} /> : ""}
           {/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
-          
+          {this.state.deleteFlag == 1? <Delete delfunction={this.deleteTraveller}  /> : ""}
           
         </div>
       </div>
@@ -224,5 +222,3 @@ class TicketToRide extends React.Component {
 const element = <TicketToRide />;
 
 ReactDOM.render(element, document.getElementById('contents'));
-
-//test
