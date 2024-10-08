@@ -251,3 +251,5 @@ class TicketToRide extends React.Component {
 const element = <TicketToRide />;
 
 ReactDOM.render(element, document.getElementById('contents'));
+
+//Test passed
