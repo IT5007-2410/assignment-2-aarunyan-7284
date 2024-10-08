@@ -63,7 +63,10 @@ class Add extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
-
+    const formAdd = document.forms.addTraveller;
+    console.log(formAdd.travellername.value);
+    //code to delete the traveller
+    this.props.addfunction(formAdd.travellername.value , formAdd.travelerphone.value);
   }
 
   render() {
@@ -164,7 +167,10 @@ class TicketToRide extends React.Component {
     console.log("2",this.state.addFlag,this.state.deleteFlag);
   }
 
-
+  setSelector(value)
+  {
+  	/*Q2. Function to set the value of component selector variable based on user's button click.*/
+  }
   componentDidMount() {
     this.loadData();
 
@@ -190,7 +196,13 @@ class TicketToRide extends React.Component {
 
   bookTraveller(passenger,phoneNumber) {
 	    /*Q4. Write code to add a passenger to the traveller state variable.*/
-
+      var assignedSeatNo = this.state.availableSeatNumber.pop();
+      if (assignedSeatNo==undefined){return alert("Sorry, no more seat available");}
+      this.state.travellers.push({id:count+1,name:passenger,phone:phoneNumber,bookingTime: new Date().toLocaleString() ,seatNo:assignedSeatNo, 
+        bookingID: String.fromCharCode( Math.floor(Math.random()*26) + 65) + Math.floor(Math.random()*100000000).toString()});
+      this.state.selector+=1;
+      count+=1;
+      this.setState((state)=>({travellers:state.travellers,selector:state.selector}));  
   }
 
   deleteTraveller(passengerBookingID) {
