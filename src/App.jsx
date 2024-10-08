@@ -15,6 +15,8 @@ var count = 2;
 
 
 
+
+
 class Display2 extends React.Component {
   constructor(props) {
     super(props);
@@ -92,7 +94,10 @@ class Delete extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     /*Q5. Fetch the passenger details from the deletion form and call deleteTraveller()*/
-
+    const form = document.forms.deleteTraveller;
+    console.log(form.bookingID.value);
+    //code to delete the traveller
+    this.props.delfunction(form.bookingID.value);
   }
 
   render() {
@@ -207,7 +212,17 @@ class TicketToRide extends React.Component {
 
   deleteTraveller(passengerBookingID) {
 	  /*Q5. Write code to delete a passenger from the traveller state variable.*/
-
+    console.log("deleteTraveller:",passengerBookingID);
+    //actual deletion
+    var newlist = [];
+    
+    this.state.travellers.forEach(element => {
+      if (element.bookingID!=passengerBookingID){newlist.push(element); }
+      else {this.state.availableSeatNumber.push(element.seatNo);}
+    });
+    if (newlist.length == this.state.travellers.length){return alert("No such booking ID found");} 
+    else {this.state.selector-=1;}
+    this.setState((state)=>({travellers:newlist,selector:state.selector}));  
 
   }
   
