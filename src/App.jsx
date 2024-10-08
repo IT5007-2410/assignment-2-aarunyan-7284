@@ -66,7 +66,6 @@ class Add extends React.Component {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
     const formAdd = document.forms.addTraveller;
-    console.log(formAdd.travellername.value);
     //code to delete the traveller
     this.props.addfunction(formAdd.travellername.value , formAdd.travelerphone.value);
   }
@@ -95,7 +94,6 @@ class Delete extends React.Component {
     e.preventDefault();
     /*Q5. Fetch the passenger details from the deletion form and call deleteTraveller()*/
     const form = document.forms.deleteTraveller;
-    console.log(form.bookingID.value);
     //code to delete the traveller
     this.props.delfunction(form.bookingID.value);
   }
@@ -123,7 +121,6 @@ class Homepage extends React.Component {
 
   handleSubmitAdd(e) {
     e.preventDefault();
-    console.log("A")
     this.props.showAdd();
   }
 
@@ -163,13 +160,12 @@ class TicketToRide extends React.Component {
   showAddComponent() {
     
     this.setState(state=>({addFlag:1 , deleteFlag:0}));
-    console.log("1",this.state.addFlag,this.state.deleteFlag);
 
   }
 
   showDeleteComponent() {
     this.setState(state=>({addFlag:0 , deleteFlag:1}));
-    console.log("2",this.state.addFlag,this.state.deleteFlag);
+
   }
 
   setSelector(value)
@@ -212,7 +208,6 @@ class TicketToRide extends React.Component {
 
   deleteTraveller(passengerBookingID) {
 	  /*Q5. Write code to delete a passenger from the traveller state variable.*/
-    console.log("deleteTraveller:",passengerBookingID);
     //actual deletion
     var newlist = [];
     
@@ -241,7 +236,6 @@ class TicketToRide extends React.Component {
           {/*Q2 and Q6. Code to call Instance that draws Homepage. Homepage shows Visual Representation of free seats.*/}
           <Homepage availableSeatNumber={this.state.availableSeatNumber} showAdd={this.showAddComponent} showDelete={this.showDeleteComponent} selector={this.state.selector}/>
           {/*Q3. Code to call component that Displays Travellers.*/}
-          {console.log(currentDate)}
           <Display2 traveller2={this.state.travellers}/>
           {/*Q4. Code to call the component that adds a traveller.*/}
           {this.state.addFlag == 1? <Add addfunction={this.bookTraveller} /> : ""}
